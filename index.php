@@ -15,7 +15,6 @@ $app->notFound(function () use ($app){
 });
 
 $app->before(function() use ($app) {
-  // /error_log(print_r($app->response,true));
   if(!in_array($app->router->getRewriteUri(), $app->routerignore)){
     if(!$app->request->getHeader('Authorization')){
       $app->response->setStatusCode(403, 'Unauthorized');
@@ -24,7 +23,7 @@ $app->before(function() use ($app) {
       return false;
     }else{
       try{
-        $decode = JWT::decode($app->request->getHeader('Authorization'), $app->jwt->secret, $app->jwt->type);
+        JWT::decode($app->request->getHeader('Authorization'), $app->jwt->secret, $app->jwt->type);
       }catch(ExpiredException $e){
         $app->response->setJsonContent(array('error'=>'Expired token'));
       }
@@ -54,30 +53,6 @@ $app->post('/api/auth', function() use ($app){
       $app->response->setJsonContent(array('error'=>'Email or Password not match'));
     }
   }
-  return $app->response;
-});
-
-$app->get('/api/token', function() use ($app){
-  $key = "example_key";
-
-  $token = array(
-    "iss" => "http://example.org",
-    "aud" => "http://example.com",
-    "iat" => 1356999524,
-    "nbf" => 1357000000
-  );
-
-  $jwt = JWT::encode($token, $key);
-  echo $jwt;
-});
-
-$app->get('/api/test', function() use ($app){
-  $app->response->setJsonContent(array(''=>''));
-  return $app->response;
-});
-
-$app->get('/api/user', function() use ($app){
-  $app->response->setJsonContent(array('result'=>array('Foo', 'Bar')));
   return $app->response;
 });
 
