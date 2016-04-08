@@ -23,7 +23,6 @@ $app->before(function() use ($app) {
       $app->response->send();
       return false;
     }else{
-      error_log(print_r($app->jwt, true));
       try{
         $decode = JWT::decode($app->request->getHeader('Authorization'), $app->jwt->secret, $app->jwt->type);
       }catch(ExpiredException $e){
