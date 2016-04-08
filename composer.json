@@ -1,0 +1,14 @@
+{
+  "name":"rtask",
+  "authors":[
+    {
+      "name": "Aderbal Nunes",
+      "email": "aderbalnunes@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "homepage":"http://aderbalnunes.com",
+  "require": {
+    "firebase/php-jwt": "^3.0"
+  }
+}
