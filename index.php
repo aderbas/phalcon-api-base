@@ -24,10 +24,11 @@ $app->before(function() use ($app) {
     }else{
       try{
         JWT::decode($app->request->getHeader('Authorization'), $app->jwt->secret, $app->jwt->type);
-      }catch(ExpiredException $e){
+      }catch(Exception $e){
         $app->response->setJsonContent(array('error'=>'Expired token'));
+        $app->response->send();
+        return false;
       }
-      return $app->response;
     }
   }
   return true;
@@ -53,6 +54,11 @@ $app->post('/api/auth', function() use ($app){
       $app->response->setJsonContent(array('error'=>'Email or Password not match'));
     }
   }
+  return $app->response;
+});
+
+$app->get('/api/user', function() use ($app){
+  $app->response->setJsonContent(array('result'=>array('foo', 'bar')));
   return $app->response;
 });
 
