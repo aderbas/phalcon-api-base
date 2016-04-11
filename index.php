@@ -15,23 +15,30 @@ $app->notFound(function () use ($app){
 });
 
 $app->before(function() use ($app) {
+  $return = true;
   if(!in_array($app->router->getRewriteUri(), $app->routerignore)){
     if(!$app->request->getHeader('Authorization')){
       $app->response->setStatusCode(403, 'Unauthorized');
       $app->response->setContent('You have no rights');
-      $app->response->send();
-      return false;
+      $return = false;
     }else{
       try{
-        JWT::decode($app->request->getHeader('Authorization'), $app->jwt->secret, $app->jwt->type);
+        // improvise Bearer token scheme
+        $parts = explode(" ", $app->request->getHeader('Authorization'));
+        if(trim($parts[0]) === 'Bearer'){
+          JWT::decode($parts[1], $app->jwt->secret, $app->jwt->type);
+        }else{
+          $app->response->setJsonContent(array('error'=>'Invalid token'));
+          $return = false;
+        }
       }catch(Exception $e){
         $app->response->setJsonContent(array('error'=>'Expired token'));
-        $app->response->send();
-        return false;
+        $return = false;
       }
     }
   }
-  return true;
+  $app->response->send();
+  return $return;
 });
 // auth
 $app->post('/auth', function() use ($app){
