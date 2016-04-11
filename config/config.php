@@ -33,8 +33,8 @@ $di->set('jwt', function(){
 
 $di->set('routerignore', function(){
   return array(
-    '/api/auth',
-    '/api/version',
-    '/api/test'
+    '/auth',
+    '/version',
+    '/test'
   );
 });
