@@ -33,7 +33,7 @@ $app->before(function() use ($app) {
   }
   return true;
 });
-
+// auth
 $app->post('/api/auth', function() use ($app){
   $params = $app->request->getJsonRawBody();
   if(!isset($params)) $params = $_POST;
@@ -58,7 +58,7 @@ $app->post('/api/auth', function() use ($app){
   }
   return $app->response;
 });
-
+// mount collections
 $app->mount(UserCollection::getCollection());
 
 $app->error(
