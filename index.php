@@ -41,15 +41,17 @@ $app->post('/api/auth', function() use ($app){
   $app->response->setJsonContent(array('error'=>'No params'));
   if(isset($params)){
     // try login
+    // fake login
     if($params['email'] == 'aderbal@aderbalnunes.com' && $params['pwd'] == md5('123456')){
+      // token params
       $user = (object) array(
         "iat" => 1356999524,
         "nbf" => 1357000000
       );
+      // user param
       $user->name = 'Aderbal Nunes';
       $user->email = 'aderbal@aderbal.com';
       $app->response->setJsonContent(array('token'=> JWT::encode($user, $app->jwt->secret)));
-      //$app->response->setJsonContent(array('token'=> $user));
     }else{
       $app->response->setJsonContent(array('error'=>'Email or Password not match'));
     }
@@ -57,10 +59,7 @@ $app->post('/api/auth', function() use ($app){
   return $app->response;
 });
 
-$app->get('/api/user', function() use ($app){
-  $app->response->setJsonContent(array('result'=>array('foo', 'bar')));
-  return $app->response;
-});
+$app->mount(UserCollection::getCollection());
 
 $app->error(
   function (Exception $e) {
