@@ -34,7 +34,7 @@ $app->before(function() use ($app) {
   return true;
 });
 // auth
-$app->post('/api/auth', function() use ($app){
+$app->post('/auth', function() use ($app){
   $params = $app->request->getJsonRawBody();
   if(!isset($params)) $params = $_POST;
   //error_log(print_r($params, true));

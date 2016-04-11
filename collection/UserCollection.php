@@ -9,7 +9,7 @@ class UserCollection{
     // set handler
     $collection->setHandler(new UserController());
     // set common prefix
-    $collection->setPrefix('/api/user');
+    $collection->setPrefix('/user');
     // use metod of controller
     // get all
     $collection->get('/', 'getAll');

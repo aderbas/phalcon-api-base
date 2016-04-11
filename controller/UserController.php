@@ -9,7 +9,7 @@ class UserController extends Phalcon\Mvc\Controller{
   // get all users
   public function getAll(){
     // return fake data
-    echo json_encode(array(
+    Util::printResult(array(
       array("name"=>"Tiago", "email"=>"tiago@domain.com", "id"=>213),
       array("name"=>"Bal", "email"=>"bal@domain.com", "id"=>123)
     ));
@@ -18,7 +18,7 @@ class UserController extends Phalcon\Mvc\Controller{
   // get user by id
   public function getUser($id){
     // return fake data
-    echo json_encode((object)array(
+    Util::printResult((object)array(
       "name"=>"Bal", "email"=>"bal@domain.com", "id"=>123
     ));
   }

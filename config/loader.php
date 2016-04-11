@@ -7,7 +7,8 @@ $loader->registerDirs(
   array(
    __DIR__.$config->application->controllersDir,
    __DIR__.$config->application->collectionsDir,
-   __DIR__.$config->application->modelsDir
+   __DIR__.$config->application->modelsDir,
+   __DIR__.$config->application->utilsDir
   )
 );
 // register namespaces
