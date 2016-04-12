@@ -48,13 +48,12 @@ $app->before(function() use ($app) {
 // auth
 $app->post('/auth', function() use ($app){
   $params = $app->request->getJsonRawBody();
-  if(!isset($params)) $params = $_POST;
-  //error_log(print_r($params, true));
+  //if(!isset($params)) $params = $_POST;
   $app->response->setJsonContent(array('error'=>'No params'));
   if(isset($params)){
     // try login
     // fake login
-    if($params['email'] == 'aderbal@aderbalnunes.com' && $params['pwd'] == '123456'){
+    if($params->email == 'aderbal@aderbalnunes.com' && $params->pwd == '123456'){
       // token params
       $user = (object) array(
         "iat" => 1356999524,
