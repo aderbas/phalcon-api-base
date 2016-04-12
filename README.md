@@ -40,3 +40,10 @@ Content-Type: application/json
 
 {"result":[{"name":"Tiago","email":"tiago@domain.com","id":213},{"name":"Bal","email":"bal@domain.com","id":123}],"msg":"Data Result","error":0}
 ```
+- Using Postgres or Mysql
+
+The database information is in <code>config/config.ini</code>. Change adapter Postgresql/Mysql and access information. The queries are in controllers. Learn more about it [here](https://docs.phalconphp.com/en/latest/reference/controllers.html). Remember that our controller will always show our result. <code>Util::printResult(...)</code>
+
+- Routes
+
+All routes are in collections. Just create a file similar to the model (<code>collection/UserCollection.php</code>).
