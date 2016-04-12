@@ -46,4 +46,9 @@ The database information is in <code>config/config.ini</code>. Change adapter Po
 
 - Routes
 
-All routes are in collections. Just create a file similar to the model (<code>collection/UserCollection.php</code>).
+All routes are in collections. Just create a file similar to the model <code>collection/UserCollection.php</code> and mount that in <code>index.php</code>
+```php
+...
+$app->mount(MyNewCollection::getCollection());
+...
+```
