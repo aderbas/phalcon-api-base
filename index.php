@@ -10,17 +10,25 @@ use \Firebase\JWT\ExpiredException;
 use \Firebase\JWT\JWT;
 
 $app = new Micro($di);
+// router not found
 $app->notFound(function () use ($app){
   $app->response->setStatusCode(404, "Not Found")->sendHeaders();
+  $app->response->setJsonContent(array('error'=> 'Not Found'));
+  return $app->response;
+});
+// return version
+$app->get('/version', function() use ($app){
+  $app->response->setJsonContent(array('version'=> '0.1.2'));
+  return $app->response;
 });
 
 $app->before(function() use ($app) {
-  $return = true;
   if(!in_array($app->router->getRewriteUri(), $app->routerignore)){
     if(!$app->request->getHeader('Authorization')){
       $app->response->setStatusCode(403, 'Unauthorized');
-      $app->response->setContent('You have no rights');
-      $return = false;
+      $app->response->setJsonContent(array('error'=>'You have no rights'));
+      $app->response->send();
+      return false;
     }else{
       try{
         // improvise Bearer token scheme
@@ -28,17 +36,20 @@ $app->before(function() use ($app) {
         if(trim($parts[0]) === 'Bearer'){
           JWT::decode($parts[1], $app->jwt->secret, $app->jwt->type);
         }else{
+          $app->response->setStatusCode(403, 'Unauthorized');
           $app->response->setJsonContent(array('error'=>'Invalid token'));
-          $return = false;
+          $app->response->send();
+          return false;
         }
       }catch(Exception $e){
+        $app->response->setStatusCode(403, 'Unauthorized');
         $app->response->setJsonContent(array('error'=>'Expired token'));
-        $return = false;
+        $app->response->send();
+        return false;
       }
     }
   }
-  $app->response->send();
-  return $return;
+  return true;
 });
 // auth
 $app->post('/auth', function() use ($app){
@@ -49,7 +60,7 @@ $app->post('/auth', function() use ($app){
   if(isset($params)){
     // try login
     // fake login
-    if($params['email'] == 'aderbal@aderbalnunes.com' && $params['pwd'] == md5('123456')){
+    if($params['email'] == 'aderbal@aderbalnunes.com' && $params['pwd'] == '123456'){
       // token params
       $user = (object) array(
         "iat" => 1356999524,
