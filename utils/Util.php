@@ -1,5 +1,6 @@
 <?php
 // Util for anything
+use Phalcon\Http\Response;
 
 class Util{
 
@@ -33,4 +34,11 @@ class Util{
     ));
   }
 
+  // Unauthorized response
+  public static function unauthorized($msg){
+    $response = new Response();
+    $response->setStatusCode(401, "Unauthorized");
+    $response->setJsonContent(array("error"=>$msg));
+    return $response;
+  }
 }

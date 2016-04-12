@@ -25,9 +25,7 @@ $app->get('/version', function() use ($app){
 $app->before(function() use ($app) {
   if(!in_array($app->router->getRewriteUri(), $app->routerignore)){
     if(!$app->request->getHeader('Authorization')){
-      $app->response->setStatusCode(403, 'Unauthorized');
-      $app->response->setJsonContent(array('error'=>'You have no rights'));
-      $app->response->send();
+      Util::unauthorized('Access is not authorized')->send();
       return false;
     }else{
       try{
@@ -36,15 +34,11 @@ $app->before(function() use ($app) {
         if(trim($parts[0]) === 'Bearer'){
           JWT::decode($parts[1], $app->jwt->secret, $app->jwt->type);
         }else{
-          $app->response->setStatusCode(403, 'Unauthorized');
-          $app->response->setJsonContent(array('error'=>'Invalid token'));
-          $app->response->send();
+          Util::unauthorized('Invalid token format')->send();
           return false;
         }
       }catch(Exception $e){
-        $app->response->setStatusCode(403, 'Unauthorized');
-        $app->response->setJsonContent(array('error'=>'Expired token'));
-        $app->response->send();
+        Util::unauthorized('Token is expired')->send();
         return false;
       }
     }
