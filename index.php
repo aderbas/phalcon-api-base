@@ -4,7 +4,15 @@
 // loader
 @require 'config/loader.php';
 
-// Phalcon API
+/**
+ * Simple API using Phalcon and JWT
+ * https://phalconphp.com | https://github.com/firebase/php-jwt
+ *
+ * @author Aderbal Nunes <aderbalnunes@gmail.com>
+ * @license https://opensource.org/licenses/MIT
+ * @link https://github.com/aderbas/phalcon-api-base
+ */
+
 use Phalcon\Mvc\Micro;
 use \Firebase\JWT\ExpiredException;
 use \Firebase\JWT\JWT;
